@@ -10,7 +10,7 @@ def robust_connect(connection_type, address, max_retries=5):
             print("Testing basic communication...")
             battery = marty.get_battery_remaining()
             print(f"Battery level: {battery}%")
-            print("✅ Connection successful!")
+            print("Connection successful!")
             return marty
         except Exception as e:
             print(f"Connection failed: {e}")
@@ -18,7 +18,7 @@ def robust_connect(connection_type, address, max_retries=5):
                 wait_time = (i + 1) * 2
                 print(f"Waiting {wait_time} seconds before retry...")
                 time.sleep(wait_time)
-    print("❌ All connection attempts failed")
+    print("All connection attempts failed")
     return None
 
 
@@ -31,7 +31,7 @@ def execute_with_retry(marty, command, *args, max_retries=3, **kwargs):
             print(f"Command {command} failed on attempt {i + 1}: {e}")
             if i < max_retries - 1:
                 time.sleep(1)
-    print(f"❌ Command {command} failed after all retries")
+    print(f"Command {command} failed after all retries")
     return False
 
 
@@ -113,7 +113,7 @@ def main():
     print("=" * 40)
     my_marty = robust_connect("usb", "/dev/ttyUSB0")
     if not my_marty:
-        print("\n💡 Troubleshooting suggestions:")
+        print("\n Troubleshooting suggestions:")
         print("1. Check if Marty is fully powered on")
         print("2. Replug USB cable")
         print("3. Restart Marty")
@@ -122,7 +122,7 @@ def main():
     basic_movement_test(my_marty)
     simple_walk_sequence(my_marty, steps=6)
     advanced_movement_test(my_marty)
-    print("\n🎉 Test completed!")
+    print("\n Test completed!")
     try:
         my_marty.close()
     except:
