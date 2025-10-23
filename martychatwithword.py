@@ -11,7 +11,7 @@ def robust_connect(connection_type, address, max_retries=5):
             print("Testing basic communication...")
             battery = marty.get_battery_remaining()
             print(f"Battery level: {battery}%")
-            print("✅ Marty connected successfully!")
+            print("Marty connected successfully!")
             return marty
         except Exception as e:
             print(f"Connection failed: {e}")
@@ -19,7 +19,7 @@ def robust_connect(connection_type, address, max_retries=5):
                 wait_time = (i + 1) * 2
                 print(f"Waiting {wait_time} seconds before retry...")
                 time.sleep(wait_time)
-    print("❌ All connection attempts failed")
+    print("All connection attempts failed")
     return None
 
 
@@ -32,7 +32,7 @@ def execute_with_retry(marty, command, *args, max_retries=3, **kwargs):
             print(f"Command {command} failed on attempt {i + 1}: {e}")
             if i < max_retries - 1:
                 time.sleep(1)
-    print(f"❌ Command {command} failed after all retries")
+    print(f"Command {command} failed after all retries")
     return False
 
 
@@ -187,35 +187,35 @@ def handle_generic_session(marty, subject):
 
 
 def start_standard_timer(marty, subject):
-    print(f"\n⏰ {subject} standard study timer started!")
+    print(f"\n {subject} standard study timer started!")
     print("Recommended: 50 minutes study → 10 minutes break")
     execute_with_retry(marty, 'hello')
     time.sleep(1)
 
 
 def start_pomodoro_timer(marty, subject):
-    print(f"\n🍅 {subject} Pomodoro technique started!")
+    print(f"\n {subject} Pomodoro technique started!")
     print("Pattern: 25 minutes study → 5 minutes break × 4 → 15 minutes long break")
     execute_with_retry(marty, 'hello')
     time.sleep(1)
 
 
 def start_math_timer(marty):
-    print(f"\n📐 Math chunking study timer started!")
+    print(f"\n Math chunking study timer started!")
     print("Pattern: 20 minutes study → 3 minutes break × 3 → 10 minutes long break")
     execute_with_retry(marty, 'hello')
     time.sleep(1)
 
 
 def start_programming_timer(marty):
-    print(f"\n💻 Programming deep work timer started!")
+    print(f"\n Programming deep work timer started!")
     print("Pattern: 90 minutes deep work → 20 minutes break")
     execute_with_retry(marty, 'hello')
     time.sleep(1)
 
 
 def start_science_timer(marty):
-    print(f"\n🔬 Science exploration timer started!")
+    print(f"\n Science exploration timer started!")
     print("Pattern: 40 minutes study → 10 minutes break → 40 minutes practice")
     execute_with_retry(marty, 'hello')
     time.sleep(1)
@@ -239,7 +239,7 @@ def main():
         safe_speak(marty, "Study plan is all set! Happy learning!")
         execute_with_retry(marty, 'dance')
 
-        print("\n🎉 Study session completed!")
+        print("\n Study session completed!")
         print("Marty has set up your study plan, time to focus on learning!")
 
     except Exception as e:
