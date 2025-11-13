@@ -41,16 +41,16 @@ class MartyStudyAssistant:
         - Spotify client for music playback
         - Study session timing configuration
         """
-        # Initialize Marty robot connection
+        # Initializing Marty robot connection
         self.marty = MARTY_CONNECTION
         print("Marty connection setup complete.")
 
-        # Configure speech recognition system
+        # Configuring speech recognition system
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
         print("Speech Recognition setup complete.")
 
-        # Initialize Gemini AI client for natural language understanding
+        # Initializing Gemini AI client for natural language understanding
         try:
             API_KEY = "AIzaSyBoqhH-tZLPGenZtDjWOPN7zJBFH6KzZ-k"
             self.gemini_client = google.genai.Client(api_key=API_KEY)
@@ -60,14 +60,14 @@ class MartyStudyAssistant:
             self.gemini_client = None
             print(f"Gemini API configuration failed: {e}")
 
-        # Initialize Spotify client for music functionality
+        # Initializing Spotify client for music functionality
         self.spotify_client = self._initialize_spotify_client()
         if self.spotify_client:
             print("Spotify client initialized successfully.")
         else:
             print("Spotify client failed to initialize.")
 
-        # Define Spotify playlist URIs for different music genres
+        # Defining Spotify playlist URIs for different music genres
         self.SPOTIFY_PLAYLISTS = {
             'lofi': 'spotify:playlist:6zCID88oNjNv9zx6puDHKj',
             'jazz': 'spotify:playlist:4lFMHfo4EC2yAk30Rwz5U7',
@@ -77,7 +77,7 @@ class MartyStudyAssistant:
         }
         print("Spotify playlist URIs loaded.")
 
-        # Configure timing parameters for study sessions
+        # Configuring timing parameters for study sessions
         self.time_config = {
             'voice_selection_timeout': 10,
             'preparation': 20,
@@ -85,7 +85,7 @@ class MartyStudyAssistant:
             'rest_session': 5,
         }
 
-        # Verify Marty connection status
+        # Verifying Marty connection status
         if self.marty:
             print("Marty connected successfully!")
         else:
@@ -124,6 +124,7 @@ class MartyStudyAssistant:
     #         print(f"[Color Detection] Error: {e}")
     #         return 'Error'
 
+    # Initializing Spotify client with OAuth authentication
     def _initialize_spotify_client(self):
         """
         Initialize Spotify client using OAuth authentication.
@@ -173,6 +174,7 @@ class MartyStudyAssistant:
             print(f"❌ Unexpected error during Spotify client setup: {e}")
             return None
 
+    # Making Marty speak the provided text
     def speak(self, text):
         """
         Make Marty speak the provided text with appropriate timing.
@@ -188,6 +190,7 @@ class MartyStudyAssistant:
         except Exception as e:
             print(f"Marty speak failed: {e}")
 
+    # Processing text with Gemini AI for natural language understanding
     def get_gemini_nlu_result(self, text):
         """
         Process natural language text using Gemini AI to extract structured intent and entities.
@@ -257,6 +260,7 @@ class MartyStudyAssistant:
             print(f"[Gemini NLU] API failed or JSON parsing error: {e}")
             return None
 
+    # Waiting for and processing voice input from user
     def wait_for_voice_selection(self, timeout=10, expected_intent=None):
         """
         Listen for voice input, process it with speech recognition and NLU.
@@ -318,6 +322,7 @@ class MartyStudyAssistant:
 
         return selected_value
 
+    # Carrying out the specified Marty action
     def execute_marty_action(self, action_name):
         """
         Execute predefined physical actions with Marty robot.
@@ -368,6 +373,7 @@ class MartyStudyAssistant:
             print(f"Action execution failed: {e}")
             return "Action execution failed"
 
+    # Asking user if they want Marty to stay or leave
     def ask_for_accompaniment(self):
         """
         Ask user if they want Marty to stay or leave during study session.
@@ -413,6 +419,7 @@ class MartyStudyAssistant:
 
         return selected_option
 
+    # Playing a Spotify playlist from a random track
     def play_spotify_music(self, playlist_key):
         """
         Play a Spotify playlist starting from a random track.
@@ -479,6 +486,7 @@ class MartyStudyAssistant:
             self.speak("An unexpected error occurred while trying to play music.")
             print(f"[Spotify] General playback error: {e}")
 
+    # Pausing currently playing Spotify music
     def stop_spotify_music(self):
         """Pause currently playing Spotify music."""
         if not self.spotify_client:
@@ -490,6 +498,7 @@ class MartyStudyAssistant:
         except Exception as e:
             print(f"[Spotify] API pause failed: {e}")
 
+    # Asking user for music preference and playing selected playlist
     def ask_music_preference(self, is_study=True):
         """
         Ask user for music preference and play selected playlist.
@@ -520,6 +529,7 @@ class MartyStudyAssistant:
             self.speak("No selection detected, playing default Lo-fi study music.")
             self.play_spotify_music('lofi')
 
+    # Detecting user's current mood and responding appropriately
     def mood_selection(self):
         """
         Detect user's current mood and respond with appropriate actions and music.
@@ -571,6 +581,7 @@ class MartyStudyAssistant:
             self.speak("No selection detected, I assume you are ready to learn!")
             self.execute_marty_action('wave')
 
+    # Asking user to select study subject
     def subject_selection(self):
         """
         Ask user to select study subject and return their choice.
@@ -601,6 +612,7 @@ class MartyStudyAssistant:
             self.speak("No selection detected, proceeding with general studies.")
             return 'general'
 
+    # Starting a timed session with voice interrupt capability
     def start_timer(self, duration_seconds, activity_name, interrupt_word='stop'):
         """
         Start a timed session with voice interrupt capability.
@@ -664,6 +676,7 @@ class MartyStudyAssistant:
             stop_event.set()
             voice.join(timeout=2)
 
+    # Starting a study session timer with default Pomodoro duration
     def learning_timer(self, duration_minutes=25):
         """
         Start a study session timer with default Pomodoro duration.
@@ -676,6 +689,7 @@ class MartyStudyAssistant:
             activity_name=f"{duration_minutes} minute study session"
         )
 
+    # Starting a rest session timer with ambient music
     def rest_timer(self, duration_minutes=5):
         """
         Start a rest session timer with ambient music.
@@ -691,6 +705,7 @@ class MartyStudyAssistant:
             interrupt_word='resume'
         )
 
+    # Executing celebration actions after successful study completion
     def celebration_sequence(self):
         """Execute celebration actions after successful study completion."""
         self.speak("Congratulations on completing your study session!")
@@ -699,6 +714,7 @@ class MartyStudyAssistant:
         self.execute_marty_action('eyes_excited')
         self.speak("You did an excellent job today!")
 
+    # Handling initial study setup and first study session
     def initial_setup_and_study(self):
         """
         Handle initial study setup including subject selection,
@@ -734,6 +750,7 @@ class MartyStudyAssistant:
         self.speak(f"Starting the first study segment ({self.time_config['study_session']} minutes).")
         self.learning_timer(self.time_config['study_session'])
 
+    # Main study session workflow coordinating all components
     def start_study_session(self):
         """
         Main study session workflow that coordinates all components:
@@ -816,6 +833,7 @@ class MartyStudyAssistant:
         finally:
             self.cleanup()
 
+    # Safely shutting down Marty robot connection
     def cleanup(self):
         """
         Safely shutdown Marty robot connection and perform cleanup.
